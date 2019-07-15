@@ -296,7 +296,6 @@ app.post('/permit/:id', async (request, response) => {
             from,
             leaveDuration,
             operationHead,
-            profileImage,
             senior,
             status,
             type,
@@ -306,6 +305,7 @@ app.post('/permit/:id', async (request, response) => {
 
         const permits = await db.collection('branch/f303/allpermits').doc()
         const permitId = permits.id
+        const profileImage = "https://firebasestorage.googleapis.com/v0/b/absensi-app-3449e.appspot.com/o/boss.png?alt=media&token=b1a8de16-249f-4160-92fe-91b954f72ebe"
 
         //buat nomor surat
         let currentdate = new Date()

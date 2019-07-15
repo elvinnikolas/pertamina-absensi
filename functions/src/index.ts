@@ -369,7 +369,7 @@ app.post('/permit/:id', async (request, response) => {
         if (userExist) {
             await db.doc('branch/f303/allpermits/' + permitId).set(data)
                 .then(function () {
-                    console.log('Success')
+                    console.log('Success: update data permit (manual)')
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -377,7 +377,7 @@ app.post('/permit/:id', async (request, response) => {
 
             await db.doc('branch/f303/users/' + userId + "/permits/" + permitId).set(data)
                 .then(function () {
-                    console.log('Success')
+                    console.log('Success: update data permit global (manual)')
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -386,7 +386,7 @@ app.post('/permit/:id', async (request, response) => {
         else {
             await db.doc('branch/f303/allpermits/' + permitId).set(data)
                 .then(function () {
-                    console.log('Success')
+                    console.log('Success: update data permit (manual)')
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -399,7 +399,7 @@ app.post('/permit/:id', async (request, response) => {
                 { merge: true }
             )
                 .then(function () {
-                    console.log('Success')
+                    console.log('Success: update counter global (manual)')
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -720,7 +720,7 @@ exports.onCreatePermit = functions.firestore
                     { merge: true }
                 )
                     .then(function () {
-                        console.log('Success')
+                        console.log('Success: update counter complete (manual)')
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -733,7 +733,7 @@ exports.onCreatePermit = functions.firestore
                     { merge: true }
                 )
                     .then(function () {
-                        console.log('Success')
+                        console.log('Success: update counter global (manual)')
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -761,7 +761,7 @@ exports.onCreatePermit = functions.firestore
                             { merge: true }
                         )
                             .then(function () {
-                                console.log('Success')
+                                console.log('Success: update HK')
                             })
                             .catch(function (error) {
                                 console.log(error)
@@ -774,7 +774,7 @@ exports.onCreatePermit = functions.firestore
                             { merge: true }
                         )
                             .then(function () {
-                                console.log('Success')
+                                console.log('Success: update counter complete')
                             })
                             .catch(function (error) {
                                 console.log(error)
@@ -787,7 +787,7 @@ exports.onCreatePermit = functions.firestore
                             { merge: true }
                         )
                             .then(function () {
-                                console.log('Success')
+                                console.log('Success: update counter global')
                             })
                             .catch(function (error) {
                                 console.log(error)
@@ -821,7 +821,7 @@ exports.onCreatePermit = functions.firestore
                             { merge: true }
                         )
                             .then(function () {
-                                console.log('Success')
+                                console.log('Success: input permit number')
                             })
                             .catch(function (error) {
                                 console.log(error)
@@ -834,7 +834,7 @@ exports.onCreatePermit = functions.firestore
                             { merge: true }
                         )
                             .then(function () {
-                                console.log('Success')
+                                console.log('Success: input permit number global')
                             })
                             .catch(function (error) {
                                 console.log(error)
@@ -869,7 +869,7 @@ exports.onCreatePermit = functions.firestore
                             { merge: true }
                         )
                             .then(function () {
-                                console.log('Success')
+                                console.log('Success: update counter request')
                             })
                             .catch(function (error) {
                                 console.log(error)
@@ -882,7 +882,7 @@ exports.onCreatePermit = functions.firestore
                             { merge: true }
                         )
                             .then(function () {
-                                console.log('Success')
+                                console.log('Success: update counter confirm')
                             })
                             .catch(function (error) {
                                 console.log(error)
@@ -924,7 +924,7 @@ exports.onCreatePermit = functions.firestore
                         { merge: true }
                     )
                         .then(function () {
-                            console.log('Success')
+                            console.log('Success: update counter request')
                         })
                         .catch(function (error) {
                             console.log(error)
@@ -937,7 +937,7 @@ exports.onCreatePermit = functions.firestore
                         { merge: true }
                     )
                         .then(function () {
-                            console.log('Success')
+                            console.log('Success: update counter confirm')
                         })
                         .catch(function (error) {
                             console.log(error)
@@ -1085,6 +1085,7 @@ exports.onUpdatePermit = functions.firestore
 
                 //nego OH
                 if (n_confirmBySenior === true && n_confirmByOH === false) {
+                    console.log('NEGO OH')
                     //notifikasi
                     const docOH = await db.collection('branch/f303/users').doc(operationHead).get()
                     const dtOH = docOH.data()
@@ -1114,6 +1115,7 @@ exports.onUpdatePermit = functions.firestore
 
                 //nego atasan
                 else if (n_confirmBySenior === false && n_confirmByOH === false) {
+                    console.log('NEGO ATASAN')
                     //notifikasi
                     const docSenior = await db.collection('branch/f303/users').doc(senior).get()
                     const dtSenior = docSenior.data()
@@ -1145,6 +1147,7 @@ exports.onUpdatePermit = functions.firestore
             //acc OH
             else if (n_confirmByOH !== p_confirmByOH && n_request !== p_request) {
                 if (n_confirmByOH === true && n_request === false) {
+                    console.log('ACC OH')
                     let leaveResult
                     if (status === 0) {
                         leaveResult = leaveBalance - leaveDuration
@@ -1160,7 +1163,7 @@ exports.onUpdatePermit = functions.firestore
                         { merge: true }
                     )
                         .then(function () {
-                            console.log('Success')
+                            console.log('Success: update HK')
                         })
                         .catch(function (error) {
                             console.log(error)
@@ -1173,7 +1176,7 @@ exports.onUpdatePermit = functions.firestore
                         { merge: true }
                     )
                         .then(function () {
-                            console.log('Success')
+                            console.log('Success: update counter complete')
                         })
                         .catch(function (error) {
                             console.log(error)
@@ -1186,7 +1189,7 @@ exports.onUpdatePermit = functions.firestore
                         { merge: true }
                     )
                         .then(function () {
-                            console.log('Success')
+                            console.log('Success: update counter request')
                         })
                         .catch(function (error) {
                             console.log(error)
@@ -1199,7 +1202,7 @@ exports.onUpdatePermit = functions.firestore
                         { merge: true }
                     )
                         .then(function () {
-                            console.log('Success')
+                            console.log('Success: update counter confirm')
                         })
                         .catch(function (error) {
                             console.log(error)
@@ -1212,7 +1215,7 @@ exports.onUpdatePermit = functions.firestore
                         { merge: true }
                     )
                         .then(function () {
-                            console.log('Success')
+                            console.log('Success: update counter global')
                         })
                         .catch(function (error) {
                             console.log(error)
@@ -1243,70 +1246,71 @@ exports.onUpdatePermit = functions.firestore
                         .catch((error) => {
                             console.log('Error sending message:', error)
                         })
-                }
 
-                //buat nomor surat sesuai format
-                let currentdate = new Date()
-                let year = currentdate.getFullYear()
-                let str, number, newNumber
-                let kodeJabatan
+                    //buat nomor surat sesuai format
+                    let currentdate = new Date()
+                    let year = currentdate.getFullYear()
+                    let str, number, newNumber
+                    let kodeJabatan
 
-                //cek user termasuk organik atau tkjp
-                if (dataUser !== undefined) {
-                    if (dataUser.organic === true) {
-                        kodeJabatan = "/F33114/"
+                    //cek user termasuk organik atau tkjp
+                    if (dataUser !== undefined) {
+                        if (dataUser.organic === true) {
+                            kodeJabatan = "/F33114/"
+                        }
+                        else {
+                            kodeJabatan = "/F33552/"
+                        }
+                    }
+
+                    if (lastpermit.empty === true) {
+                        newNumber = padLeft(String(1), '0', 4)
                     }
                     else {
-                        kodeJabatan = "/F33552/"
+                        lastpermit.forEach(
+                            (doc) => {
+                                str = doc.data().permitNumber
+                                number = str.substr(4, 4)
+                            }
+                        )
+                        let res = Number(number) + 1
+                        newNumber = padLeft(String(res), '0', 4)
                     }
-                }
 
-                if (lastpermit.empty === true) {
-                    newNumber = padLeft(String(1), '0', 4)
-                }
-                else {
-                    lastpermit.forEach(
-                        (doc) => {
-                            str = doc.data().permitNumber
-                            number = str.substr(4, 4)
-                        }
+                    let permitNumber = "SIJ-" + String(newNumber) + kodeJabatan + String(year) + "-S8"
+
+                    //update nomor permit lokal pada user
+                    await db.collection('branch/f303/users/' + userId + '/permits').doc(permitId).set({
+                        permitNumber: permitNumber
+                    },
+                        { merge: true }
                     )
-                    let res = Number(number) + 1
-                    newNumber = padLeft(String(res), '0', 4)
+                        .then(function () {
+                            console.log('Success: update permit number')
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
+
+                    //update nomor permit global
+                    await db.collection('branch/f303/allpermits').doc(permitId).set({
+                        permitNumber: permitNumber
+                    },
+                        { merge: true }
+                    )
+                        .then(function () {
+                            console.log('Success: update permit number global')
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
                 }
-
-                let permitNumber = "SIJ-" + String(newNumber) + kodeJabatan + String(year) + "-S8"
-
-                //update nomor permit lokal pada user
-                await db.collection('branch/f303/users/' + userId + '/permits').doc(permitId).set({
-                    permitNumber: permitNumber
-                },
-                    { merge: true }
-                )
-                    .then(function () {
-                        console.log('Success')
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                    })
-
-                //update nomor permit global
-                await db.collection('branch/f303/allpermits').doc(permitId).set({
-                    permitNumber: permitNumber
-                },
-                    { merge: true }
-                )
-                    .then(function () {
-                        console.log('Success')
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                    })
             }
 
             //acc atasan
             else if (n_confirmBySenior !== p_confirmBySenior) {
                 if (n_confirmBySenior === true && n_request === true) {
+                    console.log('ACC ATASAN')
                     //update counter confirm pada atasan (-1)
                     await db.collection('branch/f303/counter').doc(senior).set({
                         counterConfirm: FieldValue.increment(-1)
@@ -1314,7 +1318,7 @@ exports.onUpdatePermit = functions.firestore
                         { merge: true }
                     )
                         .then(function () {
-                            console.log('Success')
+                            console.log('Success: update counter confirm')
                         })
                         .catch(function (error) {
                             console.log(error)
@@ -1327,65 +1331,66 @@ exports.onUpdatePermit = functions.firestore
                         { merge: true }
                     )
                         .then(function () {
-                            console.log('Success')
+                            console.log('Success: update counter confirm')
                         })
                         .catch(function (error) {
                             console.log(error)
                         })
-                }
 
-                //notifikasi
-                const docOH = await db.collection('branch/f303/users').doc(operationHead).get()
-                const docSenior = await db.collection('branch/f303/users').doc(senior).get()
-                const dtOH = docOH.data()
-                const dtSenior = docSenior.data()
+                    //notifikasi
+                    const docOH = await db.collection('branch/f303/users').doc(operationHead).get()
+                    const docSenior = await db.collection('branch/f303/users').doc(senior).get()
+                    const dtOH = docOH.data()
+                    const dtSenior = docSenior.data()
 
-                if (dtOH !== undefined) {
-                    registrationTokenOH = dtOH.token
-                }
-                if (dtSenior !== undefined) {
-                    imageSenior = dtSenior.profileImage
-                }
-                registrationTokenUser = tokenUser
+                    if (dtOH !== undefined) {
+                        registrationTokenOH = dtOH.token
+                    }
+                    if (dtSenior !== undefined) {
+                        imageSenior = dtSenior.profileImage
+                    }
+                    registrationTokenUser = tokenUser
 
-                messageUser = {
-                    data: {
-                        "title": "SIJ disetujui",
-                        "body": "SIJ yang kamu ajukan telah disetujui oleh atasan",
-                        "image": imageSenior
-                    },
-                    token: registrationTokenUser
-                }
-                messageOH = {
-                    data: {
-                        "title": "Permintaan SIJ baru",
-                        "body": "Permintaan SIJ baru dari " + nameUser,
-                        "image": imageUser
-                    },
-                    token: registrationTokenOH
-                }
+                    messageUser = {
+                        data: {
+                            "title": "SIJ disetujui",
+                            "body": "SIJ yang kamu ajukan telah disetujui oleh atasan",
+                            "image": imageSenior
+                        },
+                        token: registrationTokenUser
+                    }
+                    messageOH = {
+                        data: {
+                            "title": "Permintaan SIJ baru",
+                            "body": "Permintaan SIJ baru dari " + nameUser,
+                            "image": imageUser
+                        },
+                        token: registrationTokenOH
+                    }
 
-                admin.messaging().send(messageUser)
-                    .then((response) => {
-                        console.log('Successfully sent message:', response)
-                    })
-                    .catch((error) => {
-                        console.log('Error sending message:', error)
-                    })
+                    admin.messaging().send(messageUser)
+                        .then((response) => {
+                            console.log('Successfully sent message:', response)
+                        })
+                        .catch((error) => {
+                            console.log('Error sending message:', error)
+                        })
 
-                admin.messaging().send(messageOH)
-                    .then((response) => {
-                        console.log('Successfully sent message:', response)
-                    })
-                    .catch((error) => {
-                        console.log('Error sending message:', error)
-                    })
+                    admin.messaging().send(messageOH)
+                        .then((response) => {
+                            console.log('Successfully sent message:', response)
+                        })
+                        .catch((error) => {
+                            console.log('Error sending message:', error)
+                        })
+                }
             }
 
             // tolak
             else if (n_request !== p_request) {
                 if (n_request === false) {
                     if (n_confirmBySenior === true) {
+                        console.log('TOLAK OH / BATAL ATASAN')
                         //update counter complete pada user (+1)
                         await db.collection('branch/f303/counter').doc(userId).set({
                             counterComplete: FieldValue.increment(1)
@@ -1393,7 +1398,7 @@ exports.onUpdatePermit = functions.firestore
                             { merge: true }
                         )
                             .then(function () {
-                                console.log('Success')
+                                console.log('Success: update counter complete')
                             })
                             .catch(function (error) {
                                 console.log(error)
@@ -1406,7 +1411,7 @@ exports.onUpdatePermit = functions.firestore
                             { merge: true }
                         )
                             .then(function () {
-                                console.log('Success')
+                                console.log('Success: update counter request')
                             })
                             .catch(function (error) {
                                 console.log(error)
@@ -1419,39 +1424,43 @@ exports.onUpdatePermit = functions.firestore
                             { merge: true }
                         )
                             .then(function () {
-                                console.log('Success')
+                                console.log('Success: update counter confirm')
                             })
                             .catch(function (error) {
                                 console.log(error)
                             })
 
                         //notifikasi
-                        const docOH = await db.collection('branch/f303/users').doc(operationHead).get()
-                        const dtOH = docOH.data()
+                        if (n_cancel === false) {
+                            console.log('TOLAK OH')
+                            const docOH = await db.collection('branch/f303/users').doc(operationHead).get()
+                            const dtOH = docOH.data()
 
-                        if (dtOH !== undefined) {
-                            imageOH = dtOH.profileImage
+                            if (dtOH !== undefined) {
+                                imageOH = dtOH.profileImage
+                            }
+                            registrationTokenUser = tokenUser
+
+                            messageUser = {
+                                data: {
+                                    "title": "SIJ ditolak",
+                                    "body": "SIJ yang kamu ajukan ditolak oleh OH",
+                                    "image": imageOH
+                                },
+                                token: registrationTokenUser
+                            }
+
+                            admin.messaging().send(messageUser)
+                                .then((response) => {
+                                    console.log('Successfully sent message:', response)
+                                })
+                                .catch((error) => {
+                                    console.log('Error sending message:', error)
+                                })
                         }
-                        registrationTokenUser = tokenUser
-
-                        messageUser = {
-                            data: {
-                                "title": "SIJ ditolak",
-                                "body": "SIJ yang kamu ajukan ditolak oleh OH",
-                                "image": imageOH
-                            },
-                            token: registrationTokenUser
-                        }
-
-                        admin.messaging().send(messageUser)
-                            .then((response) => {
-                                console.log('Successfully sent message:', response)
-                            })
-                            .catch((error) => {
-                                console.log('Error sending message:', error)
-                            })
                     }
                     else {
+                        console.log('TOLAK ATASAN / BATAL USER')
                         //update counter complete pada user (+1)
                         await db.collection('branch/f303/counter').doc(userId).set({
                             counterComplete: FieldValue.increment(1)
@@ -1459,7 +1468,7 @@ exports.onUpdatePermit = functions.firestore
                             { merge: true }
                         )
                             .then(function () {
-                                console.log('Success')
+                                console.log('Success: update counter complete')
                             })
                             .catch(function (error) {
                                 console.log(error)
@@ -1472,7 +1481,7 @@ exports.onUpdatePermit = functions.firestore
                             { merge: true }
                         )
                             .then(function () {
-                                console.log('Success')
+                                console.log('Success: update counter request')
                             })
                             .catch(function (error) {
                                 console.log(error)
@@ -1485,7 +1494,7 @@ exports.onUpdatePermit = functions.firestore
                             { merge: true }
                         )
                             .then(function () {
-                                console.log('Success')
+                                console.log('Success: update counter confirm')
                             })
                             .catch(function (error) {
                                 console.log(error)
@@ -1493,6 +1502,7 @@ exports.onUpdatePermit = functions.firestore
 
                         //notifikasi
                         if (n_cancel === false) {
+                            console.log('TOLAK ATASAN')
                             const docSenior = await db.collection('branch/f303/users').doc(senior).get()
                             const dtSenior = docSenior.data()
 
@@ -1522,7 +1532,7 @@ exports.onUpdatePermit = functions.firestore
                 }
             }
             else {
-                console.log("Trigger update error")
+                console.log("Trigger update nothing")
             }
         } catch (error) {
             console.log(error)

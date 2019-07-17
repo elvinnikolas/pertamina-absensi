@@ -144,13 +144,13 @@ app.get('/users', async (request, response) => {
 app.post('/user/:id', async (request, response) => {
     try {
         const userId = request.params.id
-        const leaveBalance = 19
         const leave = false
         const pjs = ""
         const profileImage = "https://firebasestorage.googleapis.com/v0/b/absensi-app-3449e.appspot.com/o/boss.png?alt=media&token=b1a8de16-249f-4160-92fe-91b954f72ebe"
 
         const {
             employeeNumber,
+            leaveBalance,
             name,
             operationHead,
             position,

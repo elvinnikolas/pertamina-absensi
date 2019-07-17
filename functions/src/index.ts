@@ -1076,8 +1076,8 @@ exports.onUpdatePermit = functions.firestore
                 }
             )
 
-            let registrationToken, registrationTokenUser, registrationTokenOH
-            let message, messageUser, messageOH
+            let registrationToken, registrationTokenUser, registrationTokenOH, registrationTokenSenior
+            let message, messageUser, messageOH, messageSenior
             let imageSenior, imageOH
 
             //negosiasi
@@ -1390,7 +1390,65 @@ exports.onUpdatePermit = functions.firestore
             else if (n_request !== p_request) {
                 if (n_request === false) {
                     if (n_confirmBySenior === true) {
-                        console.log('TOLAK OH / BATAL ATASAN')
+                        //tolak OH
+                        if (n_cancel === false) {
+                            console.log('TOLAK OH')
+                            //notifikasi
+                            const docOH = await db.collection('branch/f303/users').doc(operationHead).get()
+                            const dtOH = docOH.data()
+
+                            if (dtOH !== undefined) {
+                                imageOH = dtOH.profileImage
+                            }
+                            registrationTokenUser = tokenUser
+
+                            messageUser = {
+                                data: {
+                                    "title": "SIJ ditolak",
+                                    "body": "SIJ yang kamu ajukan ditolak oleh OH",
+                                    "image": imageOH
+                                },
+                                token: registrationTokenUser
+                            }
+
+                            admin.messaging().send(messageUser)
+                                .then((response) => {
+                                    console.log('Successfully sent message:', response)
+                                })
+                                .catch((error) => {
+                                    console.log('Error sending message:', error)
+                                })
+                        }
+                        //cancel atasan
+                        else {
+                            console.log('CANCEL ATASAN')
+
+                            //notifikasi
+                            const docOH = await db.collection('branch/f303/users').doc(operationHead).get()
+                            const dtOH = docOH.data()
+
+                            if (dtOH !== undefined) {
+                                registrationTokenOH = dtOH.token
+                            }
+
+                            messageOH = {
+                                data: {
+                                    "title": "Permintaan SIJ baru dibatalkan",
+                                    "body": "Permintaan SIJ baru dari " + nameUser + " telah dibatalkan oleh ybs.",
+                                    "image": imageUser
+                                },
+                                token: registrationTokenOH
+                            }
+
+                            admin.messaging().send(messageOH)
+                                .then((response) => {
+                                    console.log('Successfully sent message:', response)
+                                })
+                                .catch((error) => {
+                                    console.log('Error sending message:', error)
+                                })
+                        }
+
                         //update counter complete pada user (+1)
                         await db.collection('branch/f303/counter').doc(userId).set({
                             counterComplete: FieldValue.increment(1)
@@ -1429,23 +1487,25 @@ exports.onUpdatePermit = functions.firestore
                             .catch(function (error) {
                                 console.log(error)
                             })
-
-                        //notifikasi
+                    }
+                    else {
+                        //tolak atasan
                         if (n_cancel === false) {
-                            console.log('TOLAK OH')
-                            const docOH = await db.collection('branch/f303/users').doc(operationHead).get()
-                            const dtOH = docOH.data()
+                            console.log('TOLAK ATASAN')
+                            //notifikasi
+                            const docSenior = await db.collection('branch/f303/users').doc(senior).get()
+                            const dtSenior = docSenior.data()
 
-                            if (dtOH !== undefined) {
-                                imageOH = dtOH.profileImage
+                            if (dtSenior !== undefined) {
+                                imageSenior = dtSenior.profileImage
                             }
                             registrationTokenUser = tokenUser
 
                             messageUser = {
                                 data: {
                                     "title": "SIJ ditolak",
-                                    "body": "SIJ yang kamu ajukan ditolak oleh OH",
-                                    "image": imageOH
+                                    "body": "SIJ yang kamu ajukan ditolak oleh atasan",
+                                    "image": imageSenior
                                 },
                                 token: registrationTokenUser
                             }
@@ -1458,9 +1518,35 @@ exports.onUpdatePermit = functions.firestore
                                     console.log('Error sending message:', error)
                                 })
                         }
-                    }
-                    else {
-                        console.log('TOLAK ATASAN / BATAL USER')
+                        //cancel user
+                        else {
+                            console.log('CANCEL USER')
+                            //notifikasi
+                            const docSenior = await db.collection('branch/f303/users').doc(senior).get()
+                            const dtSenior = docSenior.data()
+
+                            if (dtSenior !== undefined) {
+                                registrationTokenSenior = dtSenior.token
+                            }
+
+                            messageSenior = {
+                                data: {
+                                    "title": "Permintaan SIJ baru dibatalkan",
+                                    "body": "Permintaan SIJ baru dari " + nameUser + " telah dibatalkan oleh ybs.",
+                                    "image": imageUser
+                                },
+                                token: registrationTokenSenior
+                            }
+
+                            admin.messaging().send(messageSenior)
+                                .then((response) => {
+                                    console.log('Successfully sent message:', response)
+                                })
+                                .catch((error) => {
+                                    console.log('Error sending message:', error)
+                                })
+                        }
+
                         //update counter complete pada user (+1)
                         await db.collection('branch/f303/counter').doc(userId).set({
                             counterComplete: FieldValue.increment(1)
@@ -1499,35 +1585,6 @@ exports.onUpdatePermit = functions.firestore
                             .catch(function (error) {
                                 console.log(error)
                             })
-
-                        //notifikasi
-                        if (n_cancel === false) {
-                            console.log('TOLAK ATASAN')
-                            const docSenior = await db.collection('branch/f303/users').doc(senior).get()
-                            const dtSenior = docSenior.data()
-
-                            if (dtSenior !== undefined) {
-                                imageSenior = dtSenior.profileImage
-                            }
-                            registrationTokenUser = tokenUser
-
-                            messageUser = {
-                                data: {
-                                    "title": "SIJ ditolak",
-                                    "body": "SIJ yang kamu ajukan ditolak oleh atasan",
-                                    "image": imageSenior
-                                },
-                                token: registrationTokenUser
-                            }
-
-                            admin.messaging().send(messageUser)
-                                .then((response) => {
-                                    console.log('Successfully sent message:', response)
-                                })
-                                .catch((error) => {
-                                    console.log('Error sending message:', error)
-                                })
-                        }
                     }
                 }
             }
